@@ -7,6 +7,8 @@ import { Quaternion } from 'three';
 
 import * as THREE from 'three';
 
+const correction = new THREE.Quaternion ( 0.5, 0.5, -0.5, 0.5 );
+
 interface ImuMsg {
     orientation: { x: number; y: number; z: number; w: number };
 }
@@ -16,7 +18,8 @@ const RotatingCube: React.FC<{ quat: Quaternion}> = ({ quat }) => {
 
     useFrame(() => {
         if (ref.current) {
-            ref.current.quaternion.copy(quat);
+            const adjusted = quat.clone().multiply(correction);
+            ref.current.quaternion.copy(adjusted);
         }
     });
 

@@ -1,7 +1,10 @@
 import ROSLIB from 'roslib';
 
+const ip = import.meta.env.VITE_IP;
+const rosbridgePort = 9090;
+
 export const ros = new ROSLIB.Ros({
-    url: 'ws://172.27.32.243:9090',
+    url: `ws://${ip}:${rosbridgePort}`,
 });
 
 ros.on('connection', () => {
