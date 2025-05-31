@@ -14,7 +14,7 @@ interface ImuMsg {
 }
 
 const RotatingCube: React.FC<{ quat: Quaternion}> = ({ quat }) => {
-    const ref = React.useRef<THREE.Mesh>(null!);
+    const ref = React.useRef<THREE.Group>(null!);
 
     useFrame(() => {
         if (ref.current) {
@@ -23,11 +23,24 @@ const RotatingCube: React.FC<{ quat: Quaternion}> = ({ quat }) => {
         }
     });
 
+    const halfX = 1;    // 2 / 2
+    const coneHeight = 0.6;
+    const coneRadius = 0.12;
+    const coneOffsetX = halfX + coneHeight / 2;
+
     return (
-        <mesh ref = {ref}>
+        <group ref={ref}>
+        <mesh>
             <boxGeometry args={[2, 1, 0.5]} />
             <meshStandardMaterial color="orange" />
         </mesh>
+
+        {/* Arrow sticking out the -X face */}
+        <mesh position={[-coneOffsetX, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <coneGeometry args={[coneRadius, coneHeight, 8]} />
+            <meshStandardMaterial color="#f0000" emissive="#ff0000" emissiveIntensity={0.8} />
+        </mesh>
+        </group>
     );
 };
 
