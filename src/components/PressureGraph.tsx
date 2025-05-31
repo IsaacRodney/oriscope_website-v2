@@ -11,9 +11,20 @@ import {
 } from 'chart.js';
 import type { ChartData, ChartOptions } from 'chart.js';
 
+import { ros1 } from '../ros/rosConnection';
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
+interface ROSHeader {
+    stamp: {
+        sec: number;
+        nanosec: number;
+    };
+    frame_id: string;
+}
+
 interface PressureGraphProps {
+  header: ROSHeader;
   pressure1: number | null;
   pressure2: number | null;
 }

@@ -1,17 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
-import { ros } from '../ros/rosConnection';
-
-interface ROSHeader {
-    stamp: {
-        sec: number;
-        nanosec: number;
-    };
-    frame_id: string;
-}
+import { ros1 } from '../ros/rosConnection';
 
 interface PressureMsg {
-    header: ROSHeader;
+    header: any;
     pressure_sensor_1: number;
     pressure_sensor_2: number;
 }
@@ -19,11 +11,10 @@ interface PressureMsg {
 const PressureSensor: React.FC = () => {
     const [pressure1, setPressure1] = useState<number | null>(null);
     const [pressure2, setPressure2] = useState<number | null>(null);
-    const [timestamp, setTimestamp] = useState<number | null>(null);
 
     useEffect(() => {
         const pressureTopic = new ROSLIB.Topic({
-            ros,
+            ros1,
             name: '/mprls_pressures',
             messageType: 'mux_bus/MPRLSPressures',
         });
@@ -36,7 +27,7 @@ const PressureSensor: React.FC = () => {
         return () => {
             pressureTopic.unsubscribe();
         };
-    }, [onUpdate]);
+    }, []);
 
     return (
         <div>

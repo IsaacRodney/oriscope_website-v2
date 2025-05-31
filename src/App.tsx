@@ -5,6 +5,7 @@ import PressureSensor from './components/PressureSensor';
 import RPYDisplay from './components/RPYDisplay';
 import QuaternionVisualizer from './components/QuaternionVisualizer';
 
+
 const App: React.FC = () => {
   useEffect(() => {
     // your ros connection or other side effects here

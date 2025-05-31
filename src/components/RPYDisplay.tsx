@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ROSLIB from 'roslib';
-import { ros } from '../ros/rosConnection';
+import { ros1 } from '../ros/rosConnection';
 
 interface Vector3Stamped {
     header: any;
@@ -10,7 +10,7 @@ interface Vector3Stamped {
 const RPYDisplay: React.FC = () => {
     useEffect(() => {
         const RPYTopic = new ROSLIB.Topic({
-            ros,
+            ros1,
             name: '/rpy',
             messageType: 'geometry_msgs/Vector3Stamped',
         });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
-import { ros } from '../ros/rosConnection';
+import { ros1 } from '../ros/rosConnection';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Quaternion } from 'three';
@@ -46,7 +46,7 @@ const QuaternionVisualizer: React.FC = () => {
 
   useEffect(() => {
     const imuTopic = new ROSLIB.Topic({
-      ros,
+      ros1,
       name: '/data',
       messageType: 'sensor_msgs/Imu',
     });
@@ -62,13 +62,14 @@ const QuaternionVisualizer: React.FC = () => {
   }, []);
 
   return (
-    <div className="quaternion-visualizer-container">
-      <Canvas style={{ display: 'block', width: '100%', height: '100%' }}>
+    <div style={{ width: '100%', height: '300px' }}>
+      <Canvas>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <RotatingCube quat={quat} />
       </Canvas>
     </div>
+
   );
 };
 
