@@ -14,7 +14,7 @@ const PressureSensor: React.FC = () => {
 
     useEffect(() => {
         const pressureTopic = new ROSLIB.Topic({
-            ros1,
+            ros: ros1,
             name: '/mprls_pressures',
             messageType: 'mux_bus/MPRLSPressures',
         });

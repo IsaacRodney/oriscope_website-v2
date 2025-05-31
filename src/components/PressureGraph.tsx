@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import type { ChartData, ChartOptions } from 'chart.js';
 
-import { ros1 } from '../ros/rosConnection';
+//import { ros1 } from '../ros/rosConnection';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 

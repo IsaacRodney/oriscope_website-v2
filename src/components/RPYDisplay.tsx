@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ROSLIB from 'roslib';
 import { ros1 } from '../ros/rosConnection';
 
@@ -8,9 +8,13 @@ interface Vector3Stamped {
 }
 
 const RPYDisplay: React.FC = () => {
+    const [roll, setRoll] = useState<number | null>(null);
+    const [pitch, setPitch] = useState<number | null>(null);
+    const [yaw, setYaw] = useState<number | null>(null);
+
     useEffect(() => {
         const RPYTopic = new ROSLIB.Topic({
-            ros1,
+            ros: ros1,
             name: '/rpy',
             messageType: 'geometry_msgs/Vector3Stamped',
         });
@@ -18,6 +22,9 @@ const RPYDisplay: React.FC = () => {
         RPYTopic.subscribe((message: Vector3Stamped) => {
             // Optional: handle data elsewhere if needed
             // Example: console.log(message.vector);
+            setRoll(message.vector.x);
+            setPitch(message.vector.y);
+            setYaw(message.vector.z);
         });
 
         return () => {
@@ -25,7 +32,14 @@ const RPYDisplay: React.FC = () => {
         };
     }, []);
 
-    return null;
+    return (
+        <div>
+            <h2>Roll, Pitch, Yaw (degrees)</h2>
+            <p>Roll: {roll !== null ? roll.toFixed(1) : 'Waiting...'}</p>
+            <p>Pitch: {pitch !== null ? pitch.toFixed(1) : 'Waiting...'}</p>
+            <p>Yaw: {yaw !== null ? yaw.toFixed(1) : 'Waiting...'}</p>
+        </div>
+    );
 };
 
 export default RPYDisplay;

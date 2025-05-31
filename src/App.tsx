@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
-import OriscopeDashboard from './OriscopeDashboard';
+import {ros1, ros2} from './ros/rosConnection';
+
+//import OriscopeDashboard from './OriscopeDashboard';
 import PressureSensor from './components/PressureSensor';
 import RPYDisplay from './components/RPYDisplay';
 import QuaternionVisualizer from './components/QuaternionVisualizer';
@@ -14,7 +16,6 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <OriscopeDashboard />
       <PressureSensor />
       <RPYDisplay />
       <QuaternionVisualizer />

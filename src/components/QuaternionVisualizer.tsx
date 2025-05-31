@@ -46,7 +46,7 @@ const QuaternionVisualizer: React.FC = () => {
 
   useEffect(() => {
     const imuTopic = new ROSLIB.Topic({
-      ros1,
+      ros: ros1,
       name: '/data',
       messageType: 'sensor_msgs/Imu',
     });
