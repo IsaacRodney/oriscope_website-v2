@@ -2,12 +2,25 @@ import React, { useEffect } from 'react';
 import ROSLIB from 'roslib';
 import { ros } from '../ros/rosConnection';
 
+interface ROSHeader {
+    stamp: {
+        sec: number;
+        nanosec: number;
+    };
+    frame_id: string;
+}
+
 interface PressureMsg {
+    header: ROSHeader;
     pressure_sensor_1: number;
     pressure_sensor_2: number;
 }
 
-const PressureSensor: React.FC<{ onUpdate: (p1: number, p2: number) => void }> = ({ onUpdate }) => {
+const PressureSensor: React.FC = () => {
+    const [pressure1, setPressure1] = useState<number | null>(null);
+    const [pressure2, setPressure2] = useState<number | null>(null);
+    const [timestamp, setTimestamp] = useState<number | null>(null);
+
     useEffect(() => {
         const pressureTopic = new ROSLIB.Topic({
             ros,
@@ -16,7 +29,8 @@ const PressureSensor: React.FC<{ onUpdate: (p1: number, p2: number) => void }> =
         });
 
         pressureTopic.subscribe((message: PressureMsg) => {
-            onUpdate(message.pressure_sensor_1, message.pressure_sensor_2);
+            setPressure1(message.pressure_sensor_1);
+            setPressure2(message.pressure_sensor_2);
         });
 
         return () => {
@@ -24,7 +38,13 @@ const PressureSensor: React.FC<{ onUpdate: (p1: number, p2: number) => void }> =
         };
     }, [onUpdate]);
 
-    return null;
+    return (
+        <div>
+            <h2>Pressure Sensor</h2>
+            <p>Pressure1: {pressure1 !== null ? `${pressure1} Pa` : 'Waiting for data...'}</p>
+            <p>Pressure2: {pressure2 !== null ? `${pressure2} Pa` : 'Waiting for data...'}</p>
+        </div>
+    );
 };
 
 export default PressureSensor;
